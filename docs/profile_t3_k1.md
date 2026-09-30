@@ -60,3 +60,26 @@
 |---|---|
 | 68 | 6 |
 
+## Profil tambahan untuk enam test UTS
+
+Profil berikut dijalankan read-only terhadap CSV K1 agar seluruh `perkiraan_baris` dapat ditelusuri.
+
+| Pemeriksaan | Ringkasan SQL | Hasil |
+|---|---|---:|
+| Duplikat grain | kelompok `adm4, local_datetime, analysis_date` dengan `count(*) > 1` | 0 |
+| Curah hujan negatif | `TRY_CAST(tp AS DOUBLE) < 0` | 0 |
+| Kode desa orphan | `adm4` yang tidak ditemukan pada `desa.kode` | 0 |
+| Visibilitas kosong | `vs IS NULL OR vs = ''` | 1.156 |
+| Deskripsi dipakai banyak kode | `weather_desc` dengan lebih dari satu `weather` | 1 |
+| `time_index` awal di atas 23 | `split_part(time_index, '-', 1) > 23` | 625 |
+
+## Profil untuk jawaban analitik
+
+| Fakta profil | Hasil |
+|---|---:|
+| Tanggal lokal unik | 3 |
+| Jam lokal unik | 16 |
+| Desa dengan sedikitnya satu kode hujan 60-99 | 46 |
+| Slot berkode hujan 60-99 | 53 dari 1.156 |
+| Kecamatan dengan rata-rata `tp` tertinggi | Bogor Utara (0,189 mm/slot) |
+| Kenaikan suhu terbesar antar-slot berurutan | 6 °C |
